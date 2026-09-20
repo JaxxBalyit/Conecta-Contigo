@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 const { title = "Conecta Contigo" } = Astro.props;
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -12,7 +14,6 @@ const navLinks = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/src/styles/global.css" rel="stylesheet">
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-800">
