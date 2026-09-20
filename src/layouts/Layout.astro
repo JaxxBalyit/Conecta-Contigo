@@ -1,0 +1,87 @@
+---
+const { title = "Conecta Contigo" } = Astro.props;
+const navLinks = [
+  { href: "/", label: "Inicio" },
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/instituciones", label: "Instituciones de Apoyo" },
+  { href: "/test", label: "Test" },
+];
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/src/styles/global.css" rel="stylesheet">
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-gray-800">
+    <header class="bg-brand text-white sticky top-0 z-50 shadow-md">
+      <div class="flex items-center justify-between px-4 py-3">
+        <div class="w-9"></div>
+        <img src="/logo.png" alt="Conecta Contigo Logo" class=" w-20 object-contain mb-1" />
+        <div class="flex flex-col items-center flex-1">
+          <h1 class="text-lg font-bold leading-tight text-center text-gray-800">Conecta Contigo</h1>
+          <p class="text-xs opacity-90 text-center text-gray-600">Salud y Salario Emocional</p>
+        </div>
+        <button id="menu-btn" aria-label="Abrir menú" class="p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="black">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black/40 z-40 hidden"></div>
+
+    <!-- Side menu -->
+    <nav id="side-menu" class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
+      <div class="flex items-center justify-between p-4 border-b border-gray-200">
+        <span class="font-bold text-brand">Menú</span>
+        <button id="close-menu-btn" aria-label="Cerrar menú" class="p-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="black">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <ul class="flex flex-col p-4 gap-2">
+        {navLinks.map(link => (
+          <li>
+            <a href={link.href} class="block px-3 py-2 rounded-md text-gray-700 hover:bg-brand hover:text-white transition-colors">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <main class="flex-1 px-4 py-6">
+      <slot />
+    </main>
+
+    <footer class="bg-brand text-gray-400 text-center text-sm py-3">
+      2026 © Formación y Desarrollo
+    </footer>
+
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const closeBtn = document.getElementById('close-menu-btn');
+      const sideMenu = document.getElementById('side-menu');
+      const overlay = document.getElementById('menu-overlay');
+
+      function openMenu() {
+        sideMenu?.classList.remove('translate-x-full');
+        overlay?.classList.remove('hidden');
+      }
+      function closeMenu() {
+        sideMenu?.classList.add('translate-x-full');
+        overlay?.classList.add('hidden');
+      }
+
+      menuBtn?.addEventListener('click', openMenu);
+      closeBtn?.addEventListener('click', closeMenu);
+      overlay?.addEventListener('click', closeMenu);
+    </script>
+  </body>
+</html>
